@@ -20,13 +20,13 @@ How to create a simple map with a marker and popup using OpenLayers? How to add 
 
 Map marker onclick <https://github.com/atomjoy/openlayers-map-marker/blob/master/map-marker-click.html>.
 
-<img src="https://raw.githubusercontent.com/atomjoy/openlayers-map-marker/main/img/map-polygon.png" width="100%">
+<img src="https://raw.githubusercontent.com/atomjoy/openlayers-map-marker/main/img/map-marker-polygon-click.png" width="100%">
 
 ## Delivery area with polygon
 
 Create, load or edit polygon sample. Load polygon in json format. Download polygon file <https://github.com/atomjoy/openlayers-map-marker/blob/master/map-polygon.html>.
 
-<img src="https://raw.githubusercontent.com/atomjoy/openlayers-map-marker/main/img/map-polygon.png" width="100%">
+<img src="https://github.com/atomjoy/openlayers-map-marker/blob/master/img/map-polygon.png" width="100%">
 
 ## Map multipe markers
 
