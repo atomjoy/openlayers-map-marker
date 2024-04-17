@@ -1,6 +1,6 @@
 # Openlayers map marker (ver. 6)
 
-OpenLayers map marker with popup. Create marker with geolocation or double click. Delivery area with polygon. Multiple markers with html popups. Animated markers.
+How to create a simple map with a marker and popup using OpenLayers? How to add a marker to OpenLayers map? OpenLayers map marker with popup. Create marker with geolocation or double click. Delivery area with polygon. Multiple markers with html popups. Animated markers.
 
 ## Map file contains
 
@@ -20,7 +20,7 @@ OpenLayers map marker with popup. Create marker with geolocation or double click
 
 Map marker onclick <https://github.com/atomjoy/openlayers-map-marker/blob/master/map-marker-click.html>.
 
-<img src="https://github.com/atomjoy/openlayers-map-marker/blob/master/img/map-marker-polygon-click.png" width="100%">
+<img src="https://raw.githubusercontent.com/atomjoy/openlayers-map-marker/main/img/map-polygon.png" width="100%">
 
 ## Delivery area with polygon
 
