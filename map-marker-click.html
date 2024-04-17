@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name=description content="OpenLayer - Set map marker on click and get position.">
+    <title>OpenLayer - Set marker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+
+    <!-- OpenLayers map -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
+
+    <!-- Map style -->
+    <link rel="stylesheet" href="ol-map.css">
+    <!-- Enable map parts -->
+    <script defer src="ol-map.js"></script>
+    <script defer src="ol-map-marker.js"></script>
+    <!-- Map events -->
+    <script defer src="ol-map-marker-click.js"></script>
+    <script defer src="ol-map-popup.js"></script>
+    <script defer src="ol-map-functions.js"></script>
+    <script defer src="ol-map-polygon-delivery-area.js"></script>
+</head>
+<body>
+    <h1>OpenLayer - Set marker geolocation</h1>
+    <p>Create new marker on double click. (Console: SHIFT + CTRL + K for errors)</p>
+
+    <form>
+        <!-- Address -->
+        <label>Country, city, address</label>
+        <input type="text" id="address">
+
+        <!-- Location -->
+        <label>Location lon, lat</label>
+        <input type="text" id="location">
+
+        <a onclick="getLatLngClick(this);" id="btn"> Search</a>
+    </form>
+
+    <!-- Map div -->
+    <div id="map" class="map"></div>
+
+    <!-- Map Popup div -->
+    <div id="ol-popup" class="ol-popup animated hop">
+        <a id="close"> <img src="img/close.png" width="15" height="15"> </a>
+        <div id="content"></div>
+    </div>
+
+    <script type="text/javascript">
+
+    </script>
+</body>

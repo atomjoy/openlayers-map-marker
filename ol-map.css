@@ -1,0 +1,99 @@
+form{
+    float: left; width: 48%; height: auto; margin: 1%; overflow: hidden; box-sizing: border-box;
+}
+form *{
+    float: left; width: 100%; padding: 10px; box-sizing: border-box
+}
+form label{
+    padding-left: 0px;
+}
+form #btn{
+    margin-top: 10px;
+    padding: 10px; border: 1px solid #222;
+    cursor: pointer
+}
+form #btn:hover{
+    background: #222; color: #fff; transition: all .6s;
+}
+.map {
+    float: left; width: 48%; height: 400px; margin: 1%; overflow: hidden; box-sizing: border-box;
+}
+@media all and (max-width: 1024px){
+    form, #map{
+        width: 100%;
+    }
+}
+
+.ol-popup {
+    left: -50px;
+    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+    background-color: #fff;
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    bottom: 12px;
+    min-width: 180px;
+}
+.ol-popup #close{
+    float: right; cursor: pointer
+}
+/* cloud triangle */
+.ol-popup:after, .ol-popup:before {
+    top: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+.ol-popup:after {
+    border-top-color: #fff;
+    border-width: 10px;
+    left: 48px;
+    margin-left: -10px;
+}
+.ol-popup:before {
+    border-top-color: #ccc;
+    border-width: 11px;
+    left: 48px;
+    margin-left: -11px;
+}
+.ol-tooltip{
+    margin-bottom: 5px; border-bottom: 1px solid #333
+}
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+.animated:hover {
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+}
+@keyframes hop {
+    0% {bottom: 0px;}
+    50% {bottom: 30px;}
+    100% {bottom: 0px;}
+}
+.hop {
+    -webkit-animation-name: hop;
+    animation-name: hop;
+    animation-iteration-count: infinite;
+    animation-duration: 2s;
+}
+@keyframes tada {
+    0% {transform: scale(1);}
+    10%, 20% {transform: scale(0.9) rotate(-3deg);}
+    30%, 50%, 70%, 90% {transform: scale(1.1) rotate(3deg);}
+    40%, 60%, 80% {transform: scale(1.1) rotate(-3deg);}
+    100% {transform: scale(1) rotate(0);}
+}
+.tada {
+    -webkit-animation-name: tada;
+    animation-name: tada;
+    animation-iteration-count: infinite;
+}

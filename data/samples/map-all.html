@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+        <meta charset=utf-8>
+        <meta name=description content="">
+        <meta name=viewport content="width=device-width, initial-scale=1">
+        <title>OpenLayers examples</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/css/ol.css" type="text/css">
+        <style>
+        .map {
+            float: left; width: 50%; height: 400px; overflow: hidden; box-sizing: border-box;
+        }
+        #map-popup{
+            background: #fff; padding: 10px; border-radius: 6px; margin-top: -100px; box-shadow: 0px 1px 3px rgba(0,0,0,.3);
+            font-family: Arial, Helvetica, sans-serif;
+            color: #222;
+        }
+        form{
+            float: left; width: 50%; height: auto; overflow: hidden; box-sizing: border-box;
+        }
+        </style>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/build/ol.js"></script>
+
+  </head>
+  <body>
+    <h1>OpenLayers examples</h1>
+    <p>Open popup with single clieck. Double click create new marker. (Console: SHIFT + CTRL + K for errors)</p>
+
+    <form>
+        <!-- Address -->
+        <label>Country, city, address</label>
+        <input type="text" onkeyup="getLatLng(this)" id="address">
+
+        <!-- Location -->
+        <label>Location lat, lon</label>
+        <input type="text" id="location">
+    </form>
+
+    <!-- Map div -->
+    <div id="map" class="map"></div>
+
+    <!-- Map Popup div -->
+    <div id="map-popup" class="ol-popup">
+        <a href="#" id="popup-closer"> <i class="fa fa-close"></i> </a>
+        <div id="popup-content"></div>
+    </div>
+
+    <script type="text/javascript">
+        function getLatLng(e){
+            console.log(e.value);
+            LocationGeocoding(e.value);
+        }
+    </script>
+
+    <script type="text/javascript">
+        // Map
+        var map = new ol.Map({
+            target: 'map',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([21.002902, 52.228850]),
+                maxZoom: 18,
+                zoom: 7
+            })
+        });
+
+        // New element
+        var IconFeauture = new ol.Feature({
+            geometry: new ol.geom.Point(ol.proj.fromLonLat([21.002902, 52.228850])),
+            name: 'Some Icon'
+        })
+
+        // Add icon
+        IconFeauture.setStyle(new ol.style.Style({
+            image: new ol.style.Icon({
+                anchor: [0.5, 50],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'pixels',
+                src: '/img/marker-64.png'
+                // ,scale: 0.4
+            })
+        }));
+
+        // Map source
+        var MapSource = new ol.source.Vector({
+            features: [
+                IconFeauture
+            ]
+        })
+
+        // Add new element to layer
+        var MapLayer = new ol.layer.Vector({
+            source: MapSource
+        });
+        MapLayer.setZIndex(999);
+        map.addLayer(MapLayer);
+
+       /*
+            Search address on click
+        */
+        map.on('click', function(e) {
+            var coordinate = ol.proj.toLonLat(e.coordinate).map(function(val) {
+                return val.toFixed(6);
+            });
+            console.log(coordinate, e.coordinate);
+            // var lon = document.getElementById('lon').value = coordinate[0];
+            // var lat = document.getElementById('lat').value = coordinate[1];
+            // simpleReverseGeocoding(lon, lat);
+        });
+
+        // Get address from location
+        function ReverseGeocoding(lon, lat) {
+            fetch('https://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).then(function(response) {
+                return response.json();
+            }).then(function(json) {
+                console.log(json);
+                if(json != undefined){
+                    // document.getElementById('address').innerHTML = json.display_name;
+                }
+            })
+        }
+
+        // Get location from address
+        function LocationGeocoding(address) {
+            fetch('https://nominatim.openstreetmap.org/search?q=' + address + '&format=json').then(function(response) {
+                return response.json();
+            }).then(function(json) {
+                if(json != undefined){
+                    // document.getElementById('location').innerHTML = json[0].lat + ' ' + json[0].lon;
+                    var obj = json[0];
+                    console.log(obj);
+                    console.log(obj.lat, obj.lon);
+                    SetMarker(obj);
+                }
+            })
+        }
+
+        /*
+            Map Popup
+        */
+        var container = document.getElementById('map-popup');
+        var content = document.getElementById('popup-content');
+        var closer = document.getElementById('popup-closer');
+
+        var overlay = new ol.Overlay({
+            element: container,
+            autoPan: true,
+            autoPanAnimation: {
+                duration: 250
+            }
+        });
+        overlay.setPosition(ol.proj.fromLonLat([0, 0]));
+        map.addOverlay(overlay);
+
+        closer.onclick = function() {
+            overlay.setPosition(undefined);
+            closer.blur();
+            return false;
+        };
+
+        map.on('singleclick', function (event) {
+            if (map.hasFeatureAtPixel(event.pixel) === true) {
+                var coordinate = event.coordinate;
+                overlay.setPosition(coordinate);
+                content.innerHTML =
+                '<div class="firma">Company Name</div>' +
+                '<div class="txt">00-000 City</div>' +
+                '<div class="txt">ul. Street 1/3</div>';
+            } else {
+                overlay.setPosition(undefined);
+                closer.blur();
+            }
+        });
+
+
+        /*
+            Map add marker on click
+        */
+        var iconStyle = new ol.style.Style({
+            image: new ol.style.Icon({
+                anchor: [0.5, 50],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'pixels',
+                opacity: 0.75,
+                src: '/img/marker-64.png'
+            }),
+            text: new ol.style.Text({
+                font: '12px Arial',
+                fill: new ol.style.Fill({ color: '#000' }),
+                stroke: new ol.style.Stroke({
+                    color: '#fff', width: 2
+                }),
+                text: 'Some text'
+            })
+        });
+
+        var MarkersSource = new ol.source.Vector()
+        var vectorLayer = new ol.layer.Vector({
+            source: MarkersSource
+        })
+        vectorLayer.setZIndex(999);
+        map.addLayer(vectorLayer);
+
+        map.on('dblclick', function(evt){
+            // Clear markers vector source
+            MarkersSource.clear();
+            var feature = new ol.Feature(
+                new ol.geom.Point(evt.coordinate)
+            );
+            feature.setStyle(iconStyle);
+            MarkersSource.addFeature(feature);
+        });
+
+        /*
+            Set marker on map
+        */
+        function SetMarker(evt)
+        {
+            // clear
+            MarkersSource.clear();
+            var feature = new ol.Feature(
+                // Object
+                new ol.geom.Point(ol.proj.fromLonLat([evt.lon, evt.lat]))
+                // Event
+                // new ol.geom.Point(evt.coordinate)
+            );
+            feature.setStyle(iconStyle);
+            MarkersSource.addFeature(feature);
+            // Center
+            CenterMap(evt.lon, evt.lat);
+        }
+
+        function CenterMap(long, lat) {
+            console.log("New position Long: " + long + " Lat: " + lat);
+            map.getView().setCenter(ol.proj.transform([long, lat], 'EPSG:4326', 'EPSG:3857'));
+            map.getView().setZoom(16);
+        }
+
+        /*
+            Polygon
+        */
+        var poly = [[20.57, 53.30], [21.24, 53.30], [22.152810, 52.648142], [21.24, 52], [20.50, 52], [19.785212, 52.783446]];
+        var polygon = new ol.geom.Polygon([poly]);
+        polygon.transform('EPSG:4326', 'EPSG:3857');
+        // polygon.applyTransform(ol.proj.getTransform('EPSG:4326', 'EPSG:3857'))
+        var feature = new ol.Feature(polygon);
+        // Create vector source and the feature to it.
+        var PolygonSource = new ol.source.Vector();
+        PolygonSource.addFeature(feature);
+        // Create vector layer attached to the vector source.
+        var vectorLayer = new ol.layer.Vector({
+            source: PolygonSource
+        });
+        vectorLayer.setZIndex(0);
+        // Add the vector layer to the map.
+        map.addLayer(vectorLayer);
+
+        // Test js point in poligon
+        function TestDeliveryArea(point, vs) {
+            var x = point[0], y = point[1];
+            var inside = false;
+            for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+                var xi = vs[i][0], yi = vs[i][1];
+                var xj = vs[j][0], yj = vs[j][1];
+
+                var intersect = ((yi > y) != (yj > y))
+                    && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+                if (intersect) inside = !inside;
+            }
+            return inside;
+        };
+
+        if(TestDeliveryArea([21.002902, 52.228850], poly)){
+            alert("Marker in area !!!");
+        }
+    </script>
+  </body>
+</html>

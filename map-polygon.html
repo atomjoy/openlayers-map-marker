@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- For more: https://openlayers.org/workshop/en/vector -->
+<title>OpenLayers map - Create delivery area polygon in json (GeoJSON)</title>
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+
+<!-- OpenLayers map -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css" type="text/css">
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
+
+<style>
+*{
+    box-sizing: border-box;
+}
+#map, textarea{
+    float: left; width: 48%; height: 400px;
+    margin: 1%;
+    border: 1px solid #eee;
+}
+textarea{padding: 10px;}
+.btn{
+    float: left; width: auto;
+    padding: 10px 20px; margin-right: 10px;
+    border: 1px solid #09f; color: #09f;
+    transition: all .6s
+}
+.btn:hover{
+    background: #09f; color: #fff; cursor: pointer;
+}
+long{
+    float: left; width: 100%; overflow: hidden;
+    padding: 1%;
+}
+</style>
+</head>
+<body>
+
+<h1>OpenLayers map - Create delivery area polygon (json format)</h1>
+
+<long>
+    <a class="btn" id="clearPoly" onclick="clearPoly(this)">Clear map</a>
+    <a class="btn" id="getPoly" onclick="getPoly(this);">Get coordinates</a>
+    <a class="btn" id="download" download="features.json">Download</a>
+</long>
+
+<div id="map" class="map"></div>
+<textarea id="textarea"></textarea>
+
+<script>
+var MapTile = new ol.layer.Tile({ source: new ol.source.OSM() });
+
+var MapView = new ol.View({
+    center: ol.proj.fromLonLat([21.002902, 52.228850]),
+    maxZoom: 18,
+    zoom: 7
+});
+
+var map = new ol.Map({
+    target: 'map',
+    layers: [ MapTile ],
+    view: MapView
+});
+
+var PolygonStyle = new ol.style.Style({
+    fill: new ol.style.Fill({
+        color: 'rgba(71, 166, 255, 0.2)'
+    }),
+    stroke: new ol.style.Stroke({
+        color: 'rgba(71, 166, 255, 1)',
+        width: 2,
+        // lineDash: [5,10]
+    }),
+    image: new ol.style.Circle({
+        radius: 5,
+        fill: new ol.style.Fill({
+            color: '#09f'
+        })
+    })
+});
+
+// Create clean map source
+// var Source = new ol.source.Vector({wrapX: false});
+
+// Load map source from .json
+var Source = new ol.source.Vector({
+    format: new ol.format.GeoJSON({featureProjection: 'EPSG:3857'}),
+    url: 'data/features.json',
+    wrapX: false
+});
+
+// Layer
+var Layer = new ol.layer.Vector({ source: Source, style: PolygonStyle });
+
+// Z-index
+Layer.setZIndex(999);
+
+// Add
+map.addLayer(Layer);
+
+// Modify
+var modify = new ol.interaction.Modify({source: Source});
+map.addInteraction(modify);
+
+// Snap
+var snap = new ol.interaction.Snap({source: Source});
+map.addInteraction(snap);
+
+// Draw
+var poly = new ol.interaction.Draw({ type: 'Polygon',  source: Source });
+map.addInteraction(poly);
+
+// Clear plygons
+function clearPoly()
+{
+    Source.clear();
+}
+
+// Get features data
+function getPoly()
+{
+    // Data
+    const format = new ol.format.GeoJSON({featureProjection: 'EPSG:3857'});
+    const features = Source.getFeatures();
+    const json = format.writeFeatures(features);
+    // Link
+    const download = document.getElementById('download');
+    download.href = 'data:text/json;charset=utf-8,' + json;
+    // Textarea
+    const txt = document.getElementById('textarea');
+    txt.innerText = json;
+    // Console
+    console.log("Polygon points: ", json);
+}
+
+// Auto update textarea
+Source.on('change', function()
+{
+    console.log("On change");
+    getPoly();
+});
+</script>
+
+</body>
+</html>
