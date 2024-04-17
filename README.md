@@ -26,7 +26,7 @@ Map marker onclick <https://github.com/atomjoy/openlayers-map-marker/blob/master
 
 Create, load or edit polygon sample. Load polygon in json format. Download polygon file <https://github.com/atomjoy/openlayers-map-marker/blob/master/map-polygon.html>.
 
-<img src="https://github.com/atomjoy/openlayers-map-marker/blob/master/img/map-polygon.png" width="100%">
+<img src="https://raw.githubusercontent.com/atomjoy/openlayers-map-marker/main/img/map-polygon.png" width="100%">
 
 ## Map multipe markers
 
