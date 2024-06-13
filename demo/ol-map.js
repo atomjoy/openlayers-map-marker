@@ -12,7 +12,7 @@ var Lat = Point[1];
 var Map = CreateMap(Point);
 
 // Create markers
-CreateMarker(Lon, Lat, 'Cool marker', PopupHtml(Lon, Lat), '/img/marker-64.png');
+CreateMarker(Lon, Lat, 'Cool marker', PopupHtml(Lon, Lat), '/marker.png');
 
 // Show popup on click
 ShowPopup();
