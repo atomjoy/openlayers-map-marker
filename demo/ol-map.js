@@ -12,7 +12,7 @@ var Lat = Point[1];
 var Map = CreateMap(Point);
 
 // Create markers
-CreateMarker(Lon, Lat, 'Cool marker', PopupHtml(Lon, Lat), '/marker.png');
+CreateMarker(Lon, Lat, 'Cool marker', PopupHtml(Lon, Lat), 'marker.png');
 
 // Show popup on click
 ShowPopup();
@@ -56,7 +56,7 @@ function PopupHtml(lon, lat)
     return '<label>Details</label> <br> Latitude: ' + lat + ' Longitude: ' + lon;
 }
 
-function CreateMarker(lon, lat, popup_title, popup_html, marker_image = '/img/marker-64.png', marker_scale = 1)
+function CreateMarker(lon, lat, popup_title, popup_html, marker_image = 'marker.png', marker_scale = 0.5)
 {
     var Icon = new ol.Feature({
         geometry: new ol.geom.Point(ol.proj.fromLonLat([lon,lat])),
