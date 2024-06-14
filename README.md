@@ -3,7 +3,9 @@
 How to create a simple map with a marker and popup using OpenLayers? How to add a marker to OpenLayers map? OpenLayers map marker with popup. Create marker with geolocation or double click. Delivery area with polygon. Multiple markers with html popups. Animated markers.
 
 ## Map version get from builds
-<https://github.com/openlayers/openlayers.github.io/tree/master/en> 
+- https://github.com/openlayers/openlayers.github.io/tree/main/dist/en
+- https://raw.githubusercontent.com/openlayers/openlayers.github.io/main/dist/en/v6.4.3/build/ol.js
+- https://raw.githubusercontent.com/openlayers/openlayers.github.io/main/dist/en/v6.4.3/css/ol.css
 
 ```html
 <!-- OpenLayers map -->
