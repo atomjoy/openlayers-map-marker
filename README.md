@@ -1,16 +1,13 @@
-# Openlayers map marker (ver. 6.4.3)
+# Openlayers map marker
 
 How to create a simple map with a marker and popup using OpenLayers? How to add a marker to OpenLayers map? OpenLayers map marker with popup. Create marker with geolocation or double click. Delivery area with polygon. Multiple markers with html popups. Animated markers.
 
-## Map version get from builds
-- https://github.com/openlayers/openlayers.github.io/tree/main/dist/en
-- https://raw.githubusercontent.com/openlayers/openlayers.github.io/main/dist/en/v6.4.3/build/ol.js
-- https://raw.githubusercontent.com/openlayers/openlayers.github.io/main/dist/en/v6.4.3/css/ol.css
+# Libs
 
 ```html
 <!-- OpenLayers map -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.3/css/ol.css" type="text/css">
-<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.3/build/ol.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ol@v9.2.4/dist/ol.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v9.2.4/ol.css">
 ```
 
 ## Map file contains
@@ -72,4 +69,15 @@ function PointInPolygon(coordinate, polygon_points_array)
     var out = polygon.intersectsCoordinate(coordinate);
     return out;
 }
+```
+
+## Map version
+
+```sh
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.3/css/ol.css" type="text/css">
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.3/build/ol.js"></script>
+
+https://github.com/openlayers/openlayers.github.io/tree/main/dist/en
+https://raw.githubusercontent.com/openlayers/openlayers.github.io/main/dist/en/v6.4.3/build/ol.js
+https://raw.githubusercontent.com/openlayers/openlayers.github.io/main/dist/en/v6.4.3/css/ol.css
 ```
