@@ -1,4 +1,4 @@
-# Openlayers map marker
+# OpenLayers map marker with popup
 
 How to create a simple map with a marker and popup using OpenLayers? How to add a marker to OpenLayers map? OpenLayers map marker with popup. Create marker with geolocation or double click. Delivery area with polygon. Multiple markers with html popups. Animated markers.
 
